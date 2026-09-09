@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>คู่มือการเรียนรู้ ยาสามัญประจำบ้านแผนโบราณ 24 ขนาน</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Sarabun & Kanit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Sarabun:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Sarabun', 'sans-serif'],
+            display: ['Kanit', 'sans-serif'],
+          },
+          colors: {
+            herb: {
+              50: '#f4f8f3',
+              100: '#e5efe4',
+              200: '#cddfcb',
+              500: '#4a8146',
+              600: '#396936',
+              700: '#2d512b',
+              800: '#233f22',
+              900: '#1a2f19',
+            },
+            amberwood: {
+              500: '#b45309',
+              600: '#92400e',
+              800: '#542304',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #f8faf7;
+      color: #1f2937;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .herb-btn {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .herb-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-herb-100 selection:text-herb-900">
+
+  <!-- Header Section -->
+  <header class="bg-gradient-to-r from-herb-900 via-herb-800 to-herb-700 text-white shadow-lg sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+          <div class="p-2.5 bg-emerald-600/30 border border-emerald-400/30 rounded-xl backdrop-blur-sm">
+            <i data-lucide="leaf" class="w-8 h-8 text-emerald-300"></i>
+          </div>
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold font-display tracking-wide text-emerald-100">
+              ตำรับยาสามัญประจำบ้านแผนโบราณ 24 ขนาน
+            </h1>
+            <p class="text-xs sm:text-sm text-emerald-200/80">
+              ระบบสืบค้นโครงสร้างเภสัชกรรมไทย: ตัวยาตรง, ช่วย, ประกอบ, ชูกลิ่นชูรส พร้อมคลังภาพสมุนไพร
+            </p>
+          </div>
+        </div>
+
+        <!-- Mode Toggle & Quick Stats -->
+        <div class="flex items-center gap-2">
+          <button id="viewGridBtn" onclick="switchView('grid')" class="px-3.5 py-1.5 rounded-lg text-sm font-medium bg-white/20 text-white flex items-center gap-1.5 transition">
+            <i data-lucide="layout-grid" class="w-4 h-4"></i> ทะเบียนตำรับ
+          </button>
+          <button id="viewFlashcardBtn" onclick="switchView('flashcard')" class="px-3.5 py-1.5 rounded-lg text-sm font-medium bg-white/10 hover:bg-white/20 text-emerald-100 flex items-center gap-1.5 transition">
+            <i data-lucide="sparkles" class="w-4 h-4"></i> โหมดบัตรคำท่องจำ
+          </button>
+        </div>
+      </div>
+
+      <!-- Search and Filter Bar -->
+      <div class="mt-4 pt-3 border-t border-emerald-700/50 flex flex-col md:flex-row items-center gap-3">
+        <!-- Search Input -->
+        <div class="relative w-full md:w-80">
+          <i data-lucide="search" class="w-4 h-4 text-emerald-300 absolute left-3 top-3"></i>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="ค้นหาชื่อยา สรรพคุณ หรือสมุนไพร..."
+            class="w-full bg-emerald-950/50 border border-emerald-600/60 rounded-lg pl-9 pr-4 py-2 text-sm text-white placeholder-emerald-300/60 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:bg-emerald-950"
+            oninput="handleSearch()"
+          >
+        </div>
+
+        <!-- Category Badges Filter -->
+        <div class="flex items-center gap-1.5 overflow-x-auto w-full pb-1 custom-scrollbar text-xs font-medium">
+          <button onclick="filterCategory('all')" class="cat-pill active px-3 py-1.5 rounded-full whitespace-nowrap bg-emerald-400 text-herb-900 font-bold shadow-sm transition">
+            ทั้งหมด (24 ขนาน)
+          </button>
+          <button onclick="filterCategory('gastro')" class="cat-pill px-3 py-1.5 rounded-full whitespace-nowrap bg-emerald-950/40 text-emerald-200 hover:bg-emerald-700/60 border border-emerald-600/40 transition">
+            🍵 ทางเดินอาหาร / ขับลม
+          </button>
+          <button onclick="filterCategory('fever')" class="cat-pill px-3 py-1.5 rounded-full whitespace-nowrap bg-emerald-950/40 text-emerald-200 hover:bg-emerald-700/60 border border-emerald-600/40 transition">
+            🌡️ แก้ไข้ / ร้อนใน
+          </button>
+          <button onclick="filterCategory('resp')" class="cat-pill px-3 py-1.5 rounded-full whitespace-nowrap bg-emerald-950/40 text-emerald-200 hover:bg-emerald-700/60 border border-emerald-600/40 transition">
+            🌬️ แก้ไอ / ทางเดินหายใจ
+          </button>
+          <button onclick="filterCategory('aromatic')" class="cat-pill px-3 py-1.5 rounded-full whitespace-nowrap bg-emerald-950/40 text-emerald-200 hover:bg-emerald-700/60 border border-emerald-600/40 transition">
+            🌸 กลุ่มยาหอม / บำรุงหัวใจ
+          </button>
+          <button onclick="filterCategory('tendon')" class="cat-pill px-3 py-1.5 rounded-full whitespace-nowrap bg-emerald-950/40 text-emerald-200 hover:bg-emerald-700/60 border border-emerald-600/40 transition">
+            ⚡ ปวดเมื่อย / กษัยเส้น
+          </button>
+          <button onclick="filterCategory('special')" class="cat-pill px-3 py-1.5 rounded-full whitespace-nowrap bg-emerald-950/40 text-emerald-200 hover:bg-emerald-700/60 border border-emerald-600/40 transition">
+            👶 ยาเด็ก / สตรี
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
+    
+    <!-- Legend Guide -->
+    <div class="bg-white rounded-xl p-4 shadow-sm border border-emerald-100 mb-6 flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2 font-semibold text-gray-700">
+        <i data-lucide="info" class="w-4 h-4 text-emerald-600"></i>
+        <span>คำอธิบายโครงสร้างตำรับยา (คลิกที่ชื่อสมุนไพร เพื่อดูภาพและข้อมูลเดี่ยว):</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-rose-50 text-rose-800 border border-rose-200 font-medium">
+          <span class="w-2 h-2 rounded-full bg-rose-600"></span> ตัวยาตรง (Main drug)
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 text-amber-800 border border-amber-200 font-medium">
+          <span class="w-2 h-2 rounded-full bg-amber-500"></span> ตัวยาช่วย (Adjuvant)
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-sky-50 text-sky-800 border border-sky-200 font-medium">
+          <span class="w-2 h-2 rounded-full bg-sky-500"></span> ตัวยาประกอบ (Corrective)
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span> ชูกลิ่น ชูรส (Flavoring)
+        </span>
+      </div>
+    </div>
+
+    <!-- Active Filter Counter -->
+    <div class="flex items-center justify-between mb-4">
+      <p id="resultCount" class="text-sm font-medium text-gray-600">กำลังแสดง 24 ตำรับยา</p>
+      <p class="text-xs text-emerald-700 font-medium bg-emerald-50 px-2.5 py-1 rounded-md">
+        💡 แตะหรือคลิกที่ชื่อสมุนไพรใดก็ได้เพื่อเปิดดูรูปต้นจริงและสรรพคุณ
+      </p>
+    </div>
+
+    <!-- Grid View of Remedies -->
+    <div id="medicinesContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Generated Cards via JS -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-200">
+      <i data-lucide="search-x" class="w-12 h-12 text-gray-400 mx-auto mb-3"></i>
+      <h3 class="text-lg font-bold text-gray-700 font-display">ไม่พบตำรับยาที่ตรงกับการค้นหา</h3>
+      <p class="text-sm text-gray-500 mt-1">ลองใช้คำค้นอื่น เช่น "ขิง", "แก้ไข้", "ยาหอม", "ชะเอมเทศ"</p>
+      <button onclick="resetSearch()" class="mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm rounded-lg">
+        ล้างการค้นหา
+      </button>
+    </div>
+
+    <!-- Flashcard Mode Section (Initially Hidden) -->
+    <section id="flashcardSection" class="hidden max-w-2xl mx-auto py-6">
+      <div class="bg-white rounded-2xl shadow-md border border-emerald-100 p-6 md:p-8 text-center relative">
+        <div class="flex justify-between items-center text-xs text-gray-500 mb-4">
+          <span class="font-medium bg-emerald-100 text-herb-800 px-3 py-1 rounded-full" id="fcCategory">หมวดหมู่</span>
+          <span id="fcProgress">บัตรคำ 1 / 24</span>
+        </div>
+
+        <div class="min-h-[260px] flex flex-col items-center justify-center py-6">
+          <h2 id="fcTitle" class="text-3xl font-bold font-display text-herb-900 mb-3">ชื่อตำรับยา</h2>
+          <div id="fcTaste" class="inline-block px-3 py-1 bg-amber-50 text-amber-800 border border-amber-200 rounded-full text-xs font-semibold mb-4">
+            รสประธาน
+          </div>
+          <div id="fcAnswerBox" class="hidden w-full text-left bg-emerald-50/70 p-5 rounded-xl border border-emerald-200 text-sm mt-2 transition-all">
+            <p class="font-bold text-emerald-950 mb-1">🌿 สรรพคุณ:</p>
+            <p id="fcIndications" class="text-gray-700 mb-3"></p>
+            <p class="font-bold text-emerald-950 mb-1">🎯 ตัวยาตรงที่สำคัญ:</p>
+            <div id="fcMainDrugs" class="flex flex-wrap gap-1.5 mb-2"></div>
+            <p class="font-bold text-emerald-950 mb-1">🌿 วัตถุส่วนประกอบและสัดส่วน:</p>
+            <ul id="fcIngredients" class="list-disc list-inside text-xs text-gray-700 mb-3 space-y-0.5"></ul>
+            <p class="font-bold text-emerald-950 mb-1">🍶 น้ำกระสายยา:</p>
+            <p id="fcVehicle" class="text-gray-600 text-xs"></p>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-3 mt-6 pt-4 border-t border-gray-100">
+          <button onclick="prevFlashcard()" class="px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg text-sm flex items-center gap-1 font-medium">
+            <i data-lucide="chevron-left" class="w-4 h-4"></i> ก่อนหน้า
+          </button>
+          <button id="fcToggleAnswerBtn" onclick="toggleFlashcardAnswer()" class="px-5 py-2 bg-herb-600 hover:bg-herb-700 text-white rounded-lg text-sm font-medium shadow-sm transition">
+            เฉลยโครงสร้างตำรับ
+          </button>
+          <button onclick="nextFlashcard()" class="px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg text-sm flex items-center gap-1 font-medium">
+            ถัดไป <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal for Herb Image and Single Herb Profile -->
+  <div id="herbModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-emerald-100 transform transition-all">
+      <!-- Modal Header -->
+      <div class="relative bg-gradient-to-r from-herb-800 to-herb-700 text-white p-4 sm:p-5 flex items-start justify-between">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs px-2 py-0.5 rounded bg-emerald-600/60 text-emerald-100 border border-emerald-400/30">พิกัดสมุนไพรเดี่ยว</span>
+            <span id="modalRoleBadge" class="text-xs px-2 py-0.5 rounded bg-amber-500/80 text-amber-50"></span>
+          </div>
+          <h3 id="modalHerbName" class="text-2xl font-bold font-display mt-1 text-white tracking-wide"></h3>
+          <p id="modalSciName" class="text-xs text-emerald-200 italic"></p>
+        </div>
+        <button onclick="closeHerbModal()" class="p-1 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-5 sm:p-6 space-y-4">
+        <!-- Herb Image with Dynamic Fallback & Loading Indicator -->
+        <div class="w-full h-80 sm:h-96 bg-emerald-950/5 rounded-xl overflow-hidden relative flex items-center justify-center border border-emerald-100 shadow-inner group">
+          <!-- Loading Spinner -->
+          <div id="imgLoading" class="absolute inset-0 flex flex-col items-center justify-center bg-white/80 backdrop-blur-xs z-10">
+            <div class="w-8 h-8 border-3 border-emerald-600 border-t-transparent rounded-full animate-spin mb-2"></div>
+            <span class="text-xs text-emerald-800 font-medium">กำลังโหลดภาพสมุนไพร...</span>
+          </div>
+
+          <img 
+            id="modalHerbImg" 
+            src="" 
+            alt="สมุนไพร" 
+            class="w-full h-full object-contain transition duration-300 hover:scale-105 bg-black/5"
+            onload="handleImgSuccess(this)"
+            onerror="handleImgError(this)"
+          >
+
+          <div id="imgPlaceholder" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-emerald-50 p-4 text-center">
+            <i data-lucide="image-off" class="w-10 h-10 text-emerald-400 mb-2"></i>
+            <span class="text-sm font-semibold text-emerald-900" id="fallbackHerbName">รูปตัวอย่างสมุนไพร</span>
+            <span class="text-xs text-gray-500 mt-1">สามารถคลิกปุ่มค้นหารูปจาก Google หรือใส่ URL ด้านล่างได้</span>
+          </div>
+        </div>
+
+        <!-- Image Action Tools (Search & Custom URL) -->
+        <div class="flex items-center justify-between gap-2 p-2.5 rounded-xl bg-gray-50 border border-gray-100 text-xs">
+          <div class="flex items-center gap-2">
+            <a 
+              id="btnGoogleSearch" 
+              href="#" 
+              target="_blank" 
+              class="px-3 py-1.5 bg-white hover:bg-emerald-50 text-emerald-700 font-medium rounded-lg border border-emerald-200 flex items-center gap-1.5 shadow-2xs transition"
+              title="เปิดดูรูปสมุนไพรนี้ใน Google Images ทันที"
+            >
+              <i data-lucide="search" class="w-3.5 h-3.5"></i> ค้นหารูปใน Google
+            </a>
+            <button 
+              onclick="toggleCustomUrlInput()" 
+              class="px-3 py-1.5 bg-white hover:bg-gray-100 text-gray-700 font-medium rounded-lg border border-gray-200 flex items-center gap-1.5 transition"
+            >
+              <i data-lucide="link" class="w-3.5 h-3.5"></i> ปรับใส่ URL รูปเอง
+            </button>
+          </div>
+          <span id="imgSourceTag" class="text-[10px] text-gray-400 font-medium"></span>
+        </div>
+
+        <!-- Custom URL Input (Initially Hidden) -->
+        <div id="customUrlBox" class="hidden p-3 bg-emerald-50/70 border border-emerald-200 rounded-xl space-y-2 text-xs">
+          <label class="block font-medium text-emerald-950">วางลิงก์รูปภาพ (Direct Image URL) สำหรับสมุนไพรนี้:</label>
+          <div class="flex gap-2">
+            <input 
+              type="url" 
+              id="customUrlInput" 
+              placeholder="https://example.com/herb.jpg"
+              class="flex-1 bg-white border border-emerald-300 rounded-lg px-3 py-1.5 text-xs text-gray-800 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+            >
+            <button 
+              onclick="saveCustomHerbUrl()" 
+              class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition"
+            >
+              บันทึก
+            </button>
+            <button 
+              onclick="clearCustomHerbUrl()" 
+              class="px-2.5 py-1.5 bg-rose-100 hover:bg-rose-200 text-rose-700 rounded-lg font-medium transition"
+              title="ล้างค่าที่บันทึกไว้"
+            >
+              รีเซ็ต
+            </button>
+          </div>
+          <p class="text-[10px] text-emerald-700/80">ระบบจะบันทึกรูปนี้ไว้ในเบราว์เซอร์ของคุณเพื่อเปิดดูในครั้งต่อไป</p>
+        </div>
+
+        <!-- Quick Spec Tags -->
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div class="bg-gray-50 p-2.5 rounded-lg border border-gray-100">
+            <span class="text-gray-400 block mb-0.5">ส่วนที่ใช้ทำยา:</span>
+            <span id="modalPartUsed" class="font-semibold text-gray-800"></span>
+          </div>
+          <div class="bg-amber-50/70 p-2.5 rounded-lg border border-amber-100">
+            <span class="text-amber-700/80 block mb-0.5">รสยาเดี่ยว:</span>
+            <span id="modalTaste" class="font-semibold text-amber-900"></span>
+          </div>
+        </div>
+
+        <!-- Properties / Benefits -->
+        <div>
+          <h4 class="text-sm font-bold text-gray-800 flex items-center gap-1.5 mb-1">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i> สรรพคุณทางเภสัชกรรมไทย:
+          </h4>
+          <p id="modalHerbBenefit" class="text-sm text-gray-600 leading-relaxed bg-emerald-50/30 p-3 rounded-lg border border-emerald-100/60"></p>
+        </div>
+
+        <!-- Found In Medicines -->
+        <div>
+          <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+            พบในตำรับยาสามัญประจำบ้าน:
+          </h4>
+          <div id="modalFoundIn" class="flex flex-wrap gap-1.5"></div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="bg-gray-50 px-5 py-3 border-t border-gray-100 flex justify-end">
+        <button onclick="closeHerbModal()" class="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold rounded-lg transition">
+          ปิดหน้าต่าง
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-herb-900 text-emerald-200/80 text-xs py-6 border-t border-herb-800 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center space-y-2">
+      <p class="font-medium text-emerald-100">
+        คู่มือการศึกษาตำรับยาสามัญประจำบ้านแผนโบราณ 24 ขนาน (ตามประกาศกระทรวงสาธารณสุข)
+      </p>
+      <p class="text-emerald-300/60">
+        ออกแบบเพื่อเสริมสร้างความเข้าใจโครงสร้างตำรับยา (หลักตัวยาตรง ตัวยาช่วย ตัวยาประกอบ และการชูกลิ่นชูรส) ทางเภสัชกรรมไทย
+      </p>
+    </div>
+  </footer>
+
+  <!-- DATA & APP SCRIPT -->
+  <script>
+    // Database of Single Herbs (สมุนไพรเดี่ยว) with verified Wikipedia search targets & botanical images
+    const HERBS_DB = {
+      "กระเพรา": {
+        sci: "Ocimum tenuiflorum L.",
+        wiki: "Ocimum tenuiflorum",
+        part: "ใบสด หรือใบแห้ง",
+        taste: "รสเผ็ดร้อน ปร่า",
+        benefit: "แก้ท้องขึ้น อืดเฟ้อ แน่นจุกเสียด ขับลมในกระเพาะอาหาร บำรุงธาตุไฟ",
+        img: "https://medthai.com/wp-content/uploads/fatty-liver-symptoms-and-obesity-risks.jpg"
+      },
+      "มหาหิงคุ์": {
+        sci: "Ferula assa-foetida L.",
+        wiki: "Asafoetida",
+        part: "ชันน้ำมันจากลำต้นและราก",
+        taste: "รสเผ็ดร้อน เหม็นฉุน ปร่า",
+        benefit: "ขับลมผาย ขับลมในลำไส้ แก้ปวดท้อง แน่นจุกเสียด ละลายเสมหะ",
+        img: "https://medthai.com/wp-content/uploads/2014/05/มหาหิงคุ์.jpg"
+      },
+      "ขิง": {
+        sci: "Zingiber officinale Roscoe",
+        wiki: "ขิง",
+        part: "เหง้าแก่สด หรือเหง้าแห้ง",
+        taste: "รสหวานเผ็ดร้อน",
+        benefit: "ขับลม บำรุงธาตุ แก้คลื่นไส้อาเจียน แก้บิด มีเสมหะ เจริญอาหาร",
+        img: "https://medthai.com/wp-content/uploads/2013/07/Ginger-1.jpg"
+      },
+      "ข่า": {
+        sci: "Alpinia galanga (L.) Willd.",
+        wiki: "ข่า",
+        part: "เหง้าแก่สด หรือแห้ง",
+        taste: "รสเผ็ดปร่า ร้อน",
+        benefit: "ขับลมในลำไส้ แก้ปวดท้อง แน่นจุกเสียด บำรุงธาตุไฟ",
+        img: "https://medthai.com/wp-content/uploads/2013/07/Galanga-1.jpg"
+      },
+      "กานพลู": {
+        sci: "Syzygium aromaticum (L.) Merr. & L.M.Perry",
+        wiki: "กานพลู",
+        part: "ดอกตูมแห้ง",
+        taste: "รสเผ็ดร้อน ปร่า กลิ่นหอมฉุน",
+        benefit: "กระจายลม แก้ปวดท้อง แน่นจุกเสียด แก้รำมะนาด แก้ปวดฟัน บำรุงธาตุ",
+        img: "https://medthai.com/wp-content/uploads/2013/07/Clove-1.jpg"
+      },
+      "ดีปลี": {
+        sci: "Piper retrofractum Vahl",
+        wiki: "ดีปลี",
+        part: "ผลแก่แห้ง",
+        taste: "รสเผ็ดร้อน ปร่า",
+        benefit: "แก้ปถวีธาตุพิการ ขับลมในกระเพาะและลำไส้ เจริญอาหาร บำรุงธาตุไฟ",
+        img: "https://medthai.com/wp-content/uploads/2013/09/ดีปลี.jpg"
+      },
+      "พริกไทย": {
+        sci: "Piper nigrum L.",
+        wiki: "พริกไทย",
+        part: "ผลสุกหรือผลแห้ง (พริกไทยล่อน)",
+        taste: "รสเผ็ดร้อน ฉุน",
+        benefit: "ขับลม ขับเหงื่อ ขับปัสสาวะ บำรุงธาตุ ทะลวงเส้นเอ็น แก้กษัย",
+        img: "https://medthai.com/wp-content/uploads/2013/07/Pepper-1.jpg"
+      },
+      "กระวาน": {
+        sci: "Amomum testaceum Ridl.",
+        wiki: "Cardamom",
+        part: "ผลแก่แห้ง",
+        taste: "รสเผ็ดร้อน กลิ่นหอม ปร่า",
+        benefit: "ขับลม แก้อาการท้องอืด ท้องเฟ้อ แน่นจุกเสียด และช่วยเจริญอาหาร",
+        img: ""
+      },
+      "ลูกจันทน์": {
+        sci: "Myristica fragrans Houtt.",
+        wiki: "Nutmeg",
+        part: "เนื้อเมล็ดในผลแก่แห้ง",
+        taste: "รสเผ็ดร้อน กลิ่นหอม ปร่า ขม",
+        benefit: "แก้ลม จุกเสียด แน่นเฟ้อ บำรุงธาตุ บำรุงกำลัง บำรุงหัวใจ",
+        img: ""
+      },
+      "ดอกจันทน์": {
+        sci: "Myristica fragrans Houtt.",
+        wiki: "Nutmeg",
+        part: "รกหุ้มเมล็ดแก่แห้ง (Mace)",
+        taste: "รสเผ็ดร้อน กลิ่นหอมฉุน",
+        benefit: "บำรุงโลหิต ขับลมในลำไส้ บำรุงธาตุและหัวใจ",
+        img: ""
+      },
+      "เบญกานี": {
+        sci: "Quercus infectoria Olivier (Gall)",
+        wiki: "Quercus infectoria",
+        part: "เนื้อรังที่เกิดจากแมลงเจาะกิ่งโอ๊ก (ลูกเบญกานี)",
+        taste: "รสฝาดจัด เฝื่อน สมานแผล",
+        benefit: "สมานแผลในปาก แก้ละออง ลิ้นเป็นฝ้า แก้ท้องร่วง สมานลำไส้",
+        img: "https://medthai.com/wp-content/uploads/2014/07/ลูกเบญกานี.jpg"
+      },
+      "เจตพังคี": {
+        sci: "Cladogynos orientalis Zipp. ex Span.",
+        wiki: "Cladogynos orientalis",
+        part: "รากแห้ง",
+        taste: "รสเผ็ดขม เฝื่อน ปร่า กลิ่นหอมฉุน",
+        benefit: "แก้กษัย จุกเสียด ขับลมในกระเพาะและลำไส้ บำรุงธาตุไฟ",
+        img: "https://medthai.com/wp-content/uploads/2013/12/ต้นเจตพังคี1.jpg"
+      },
+      "กระพังโหม": {
+        sci: "Paederia linearis Hook.f.",
+        wiki: "Paederia foetida",
+        part: "ใบสดและเถาแห้ง",
+        taste: "รสขม ขื่น กลิ่นเหม็นเขียวเฉพาะตัว",
+        benefit: "แก้ลมทราง แก้อาการท้องอืด ท้องเฟ้อ ขับพยาธิ บำรุงกำลัง",
+        img: "https://medthai.com/wp-content/uploads/2015/06/สุมนไพรกระพังโหม.jpg"
+      },
+      "สีเสียดเทศ": {
+        sci: "Uncaria gambir (Hunter) Roxb.",
+        wiki: "Uncaria gambir",
+        part: "สารสกัดตกผลึกจากใบและกิ่ง",
+        taste: "รสฝาดจัด ขม ชุ่มคอ",
+        benefit: "แก้ท้องร่วง บิด สมานแผล สมานลำไส้ กัดเสมหะ",
+        img: "https://medthai.com/wp-content/uploads/fatty-liver-symptoms-and-obesity-risks.jpg"
+      },
+      "สีเสียดไทย": {
+        sci: "Acacia catechu (L.f.) Willd.",
+        wiki: "Acacia catechu",
+        part: "สารสกัดจากแก่นไม้",
+        taste: "รสฝาดจัด เฝื่อน",
+        benefit: "แก้บิด ท้องร่วง ถ่ายเป็นมูกเลือด คุมธาตุ ห้ามโลหิต สมานแผล",
+        img: ""
+      },
+      "รากกล้วยตีบ": {
+        sci: "Musa acuminata Colla",
+        wiki: "Musa acuminata",
+        part: "รากและเหง้าใต้ดิน",
+        taste: "รสฝาดเย็น",
+        benefit: "แก้ท้องร่วง บิด สมานลำไส้ ดับพิษร้อน คุมธาตุ",
+        img: "https://medthai.com/wp-content/uploads/fatty-liver-symptoms-and-obesity-risks.jpg"
+      },
+      "สมอไทย": {
+        sci: "Terminalia chebula Retz.",
+        wiki: "Terminalia chebula",
+        part: "เนื้อผลแก่แห้ง",
+        taste: "รสเปรี้ยว ฝาด ขม",
+        benefit: "ราชาแห่งสมุนไพร รู้ผายรู้ปิด ถ่ายลม ระบายพิษไข้ ถ่ายพรรดึก คุมธาตุ",
+        img: "https://medthai.com/wp-content/uploads/2013/07/Chebulic-Myrobalans-1.jpg"
+      },
+      "สมอพิเภก": {
+        sci: "Terminalia bellirica (Gaertn.) Roxb.",
+        wiki: "Terminalia bellirica",
+        part: "เนื้อผลแก่แห้ง",
+        taste: "รสเปรี้ยว ฝาด หวาน ชุ่มคอ",
+        benefit: "แก้เสมหะเป็นพิษ แก้ไอ เจ็บคอ บำรุงธาตุ บำรุงตา",
+        img: "https://medthai.com/wp-content/uploads/2013/09/ผลสมอพิเภก.jpg"
+      },
+      "มะขามป้อม": {
+        sci: "Phyllanthus emblica L.",
+        wiki: "มะขามป้อม",
+        part: "เนื้อผลสด หรือผลแห้ง",
+        taste: "รสเปรี้ยว ฝาด ขม ชุ่มคอ",
+        benefit: "แก้ไอ ละลายเสมหะ ฟอกโลหิต ดับพิษไข้ แก้กระหายน้ำ วิตามินซีสูง",
+        img: "https://medthai.com/wp-content/uploads/2013/07/มะขามป้อม1.jpg"
+      },
+      "โกฐน้ำเต้า": {
+        sci: "Rheum officinale Baill.",
+        wiki: "Rheum officinale",
+        part: "เหง้าและรากแห้ง",
+        taste: "รสฝาด ขม เอียน",
+        benefit: "รู้ผายรู้ปิด ถ่ายของเสียคั่งค้าง ระบายอุจจาระ ขับลมในกระเพาะและลำไส้",
+        img: "https://medthai.com/wp-content/uploads/2014/02/โกฐน้ำเต้า1.jpg"
+      },
+      "ยาดำ": {
+        sci: "Aloe ferox Mill. (Exudate)",
+        wiki: "Aloe ferox",
+        part: "ยางเคี่ยวแห้งจากใบว่านหางจระเข้เทศ",
+        taste: "รสขมจัด เหม็นคาว กลิ่นฉุนเฉพาะตัว",
+        benefit: "ถ่ายลม ถ่ายของเสีย ทะลวงเถาดาน ถ่ายพรรดึก แก้ท้องผูกเรื้อรัง",
+        img: "https://medthai.com/wp-content/uploads/fatty-liver-symptoms-and-obesity-risks.jpg"
+      },
+      "รงทอง": {
+        sci: "Garcinia hanburyi Hook.f.",
+        wiki: "Garcinia hanburyi",
+        part: "ยางแห้งจากต้น (ต้องผ่านการประสะก่อนใช้)",
+        taste: "รสเอียน ร้อน ขื่น เมา ถ่ายแรง",
+        benefit: "ถ่ายกษัย เถาดาน ท้องมาน ขับเสมหะและลมคั่งค้างในลำไส้",
+        img: "https://medthai.com/wp-content/uploads/2013/07/Gamboge-1.jpg"
+      },
+      "ดีเกลือฝรั่ง": {
+        sci: "Magnesium sulfate heptahydrate",
+        wiki: "ดีเกลือ",
+        part: "เกลือแร่แมกนีเซียมซัลเฟต",
+        taste: "รสเค็ม ขม เอียน",
+        benefit: "ถ่ายอุจจาระ ถ่ายพรรดึก อุ้มน้ำในลำไส้ ขับพิษไข้",
+        img: "https://medthai.com/wp-content/uploads/fatty-liver-symptoms-and-obesity-risks.jpg"
+      },
+      "ใบมะกา": {
+        sci: "Bridelia ovata Decne.",
+        wiki: "มะกา",
+        part: "ใบแห้ง",
+        taste: "รสขื่นเปรี้ยว ฝาดเล็กน้อย",
+        benefit: "ถ่ายเสมหะ ถ่ายอุจจาระ ชำระเมือกมันในลำไส้ ขับลม",
+        img: ""
+      },
+      "ปลาไหลเผือก": {
+        sci: "Eurycoma longifolia Jack",
+        wiki: "ปลาไหลเผือก_(สมุนไพร)",
+        part: "รากแห้ง",
+        taste: "รสขมจัด เมาเล็กน้อย",
+        benefit: "ตัดไข้ ดับพิษไข้ตัวร้อน ไข้จับสั่น ถอนพิษไข้ บำรุงกำลัง",
+        img: "https://medthai.com/wp-content/uploads/2014/04/ปลาไหลเผือก.jpg"
+      },
+      "ลูกกระดอม": {
+        sci: "Gymnopetalum chinense (Lour.) Merr.",
+        wiki: "กระดอม",
+        part: "ผลแห้ง",
+        taste: "รสขมจัด",
+        benefit: "ดับพิษไข้ บำรุงน้ำดี เจริญอาหาร แก้ไข้ตัวร้อน",
+        img: ""
+      },
+      "บอระเพ็ด": {
+        sci: "Tinospora crispa (L.) Hook. f. & Thomson",
+        wiki: "บอระเพ็ด",
+        part: "เถาสดหรือแห้ง",
+        taste: "รสขมจัด เย็น",
+        benefit: "แก้ไข้ ดับพิษร้อน ถอนพิษไข้ ขับเหงื่อ เจริญอาหาร บำรุงน้ำดี",
+        img: "https://medthai.com/wp-content/uploads/2013/07/Tinospora-1.jpg"
+      },
+      "จันทน์แดง": {
+        sci: "Dracaena cochinchinensis (Lour.) S.C.Chen",
+        wiki: "จันทน์ผา",
+        part: "แก่นไม้สีแดง",
+        taste: "รสขม ฝาด เย็น กลิ่นหอมสุขุม",
+        benefit: "แก้ไข้ตัวร้อน แก้ร้อนใน กระหายน้ำ ดับพิษไข้ ดับพิษโลหิต",
+        img: ""
+      },
+      "จันทน์เทศ": {
+        sci: "Myristica fragrans Houtt.",
+        wiki: "Nutmeg",
+        part: "แก่นไม้",
+        taste: "รสขมหอม เย็น",
+        benefit: "บำรุงหัวใจ ดับพิษตับปอด แก้ไข้ บำรุงดวงจิต",
+        img: "https://medthai.com/wp-content/uploads/2014/02/จันทน์เทศ.jpg"
+      },
+      "เปราะหอม": {
+        sci: "Kaempferia galanga L.",
+        wiki: "เปราะหอม",
+        part: "หัวใต้ดินแห้ง",
+        taste: "รสเผ็ดปร่า ขม กลิ่นหอมระเหย",
+        benefit: "แก้ลมซางในเด็ก แก้หวัดคัดจมูก ถอนพิษไข้ต้านทราง ขับลม",
+        img: "https://medthai.com/wp-content/uploads/2013/11/เปราะหอม1.jpg"
+      },
+      "ใบพิมเสน": {
+        sci: "Pogostemon cablin (Blanco) Benth.",
+        wiki: "พิมเสนต้น",
+        part: "ใบสด หรือแห้ง (พิมเสนต้น)",
+        taste: "รสจืด กลิ่นหอมเย็น ปร่า",
+        benefit: "ถอนพิษไข้ แก้ตัวร้อน แก้ร้อนในกระหายน้ำ แก้หวัดคัดจมูก",
+        img: ""
+      },
+      "เกสรบัวหลวง": {
+        sci: "Nelumbo nucifera Gaertn.",
+        wiki: "บัวหลวง",
+        part: "เกสรตัวผู้แห้ง",
+        taste: "รสฝาดหอม ชื่นใจ",
+        benefit: "บำรุงหัวใจ บำรุงกำลัง แก้หน้ามืด วิงเวียน ดับพิษไข้",
+        img: ""
+      },
+      "ดอกมะลิ": {
+        sci: "Jasminum sambac (L.) Aiton",
+        wiki: "มะลิ",
+        part: "ดอกตูมหรือดอกบานแห้ง",
+        taste: "รสหอมเย็น ชื่นใจ",
+        benefit: "บำรุงหัวใจ ดับพิษร้อน ถอนพิษไข้ ช่วยให้จิตใจแช่มชื่น",
+        img: ""
+      },
+      "ชะเอมเทศ": {
+        sci: "Glycyrrhiza glabra L.",
+        wiki: "Liquorice",
+        part: "รากแห้ง",
+        taste: "รสหวานชุ่มคอ",
+        benefit: "เคลือบคอ บรรเทาไอ ขับเสมหะ ดับพิษร้อน บำรุงหัวใจและตับ",
+        img: "https://medthai.com/wp-content/uploads/ชะเอมเทศ.jpg"
+      },
+      "สารส้ม": {
+        sci: "Potassium alum (Alum)",
+        wiki: "สารส้ม",
+        part: "ผลึกสารส้มสะตุ",
+        taste: "รสเปรี้ยวฝาด เปรี้ยวเค็ม",
+        benefit: "กัดเสมหะเหนียวข้น ชำระคราบเมือก สมานแผล ห้ามเลือด",
+        img: ""
+      },
+      "ลูกมะแว้งต้น": {
+        sci: "Solanum violaceum Ortega",
+        wiki: "มะแว้งต้น",
+        part: "ผลสดหรือแห้ง",
+        taste: "รสขมขื่น เปรี้ยวเล็กน้อย",
+        benefit: "แก้ไอ กัดเสมหะ ขับเสมหะ บำรุงน้ำดี ชุ่มคอ",
+        img: ""
+      },
+      "ลูกมะแว้งเครือ": {
+        sci: "Solanum trilobatum L.",
+        wiki: "มะแว้งเครือ",
+        part: "ผลสดหรือแห้ง",
+        taste: "รสขม เปรี้ยว ชุ่มคอ",
+        benefit: "กัดฟอกเสมหะ แก้ไอเรื้อรัง เจ็บคอ บำรุงธาตุ",
+        img: ""
+      },
+      "ไพล": {
+        sci: "Zingiber montanum (J.Koenig) Link ex A.Dietr.",
+        wiki: "ไพล",
+        part: "เหง้าแก่สด หรือแห้ง",
+        taste: "รสเผ็ดร้อน ขื่น ปร่า",
+        benefit: "ขับโลหิตระดูสตรี ขับน้ำคาวปลา ขับลม กระจายเลือดคั่ง คลายกล้ามเนื้อ",
+        img: "https://medthai.com/wp-content/uploads/2013/09/ไพล.jpg"
+      },
+      "ว่านน้ำ": {
+        sci: "Acorus calamus L.",
+        wiki: "ว่านน้ำ",
+        part: "เหง้าแห้ง",
+        taste: "รสเผ็ดร้อน กลิ่นหอมฉุน ปร่า",
+        benefit: "ขับลมในกระเพาะ บำรุงธาตุ แก้จุกเสียดแน่นเฟ้อ แก้ปวดท้อง",
+        img: "https://medthai.com/wp-content/uploads/2014/06/ต้นว่านน้ำ.jpg"
+      },
+      "ผิวส้มซ่า": {
+        sci: "Citrus aurantium L.",
+        wiki: "ส้มซ่า",
+        part: "ผิวเปลือกผลแห้ง",
+        taste: "รสขมหอม ปร่า",
+        benefit: "ขับลม บำรุงหัวใจ แก้วิงเวียน คลื่นไส้อาเจียน แต่งกลิ่นหอม",
+        img: "https://medthai.com/wp-content/uploads/fatty-liver-symptoms-and-obesity-risks.jpg"
+      },
+      "ผิวมะกรูด": {
+        sci: "Citrus hystrix DC.",
+        wiki: "มะกรูด",
+        part: "ผิวผลสด หรือแห้ง",
+        taste: "รสปร่า กลิ่นหอมร้อน ฉุน",
+        benefit: "ขับลมในลำไส้ ขับระดู บำรุงหัวใจ กระจายลมที่แน่นหน้าอก",
+        img: "https://medthai.com/wp-content/uploads/fatty-liver-symptoms-and-obesity-risks.jpg"
+      },
+      "โกฐหัวบัว": {
+        sci: "Ligusticum striatum DC.",
+        wiki: "Ligusticum striatum",
+        part: "เหง้าแห้ง",
+        taste: "รสเผ็ดร้อน หวาน ขมเล็กน้อย กลิ่นหอม",
+        benefit: "กระจายลม บำรุงโลหิต แก้ปวดศีรษะ วิงเวียน ขับลมในกระเพาะ",
+        img: "https://medthai.com/wp-content/uploads/2015/06/สมุนไพรโกฐหัวบัว.jpg"
+      },
+      "โกฐสอ": {
+        sci: "Angelica dahurica (Fisch. ex Hoffm.) Benth. & Hook.f. ex Franch. & Sav.",
+        wiki: "Angelica dahurica",
+        part: "รากแห้ง",
+        taste: "รสเผ็ดร้อน กลิ่นหอมสุขุม",
+        benefit: "แก้ไข้ แก้หวัด คัดจมูก แก้ปวด บำรุงหัวใจ ดับพิษร้อน",
+        img: "https://medthai.com/wp-content/uploads/2015/06/รูปรากโกฐสอ.jpg"
+      },
+      "โกฐเขมา": {
+        sci: "Atractylodes lancea (Thunb.) DC.",
+        wiki: "Atractylodes lancea",
+        part: "เหง้าแห้ง",
+        taste: "รสเผ็ดร้อน ขมหอม",
+        benefit: "บำรุงม้าม ขับความชื้น ขับลม บำรุงธาตุ ระงับเหงื่อ",
+        img: "https://medthai.com/wp-content/uploads/2015/06/รูปโกฐเขมา.jpg"
+      },
+      "โกฐพุงปลา": {
+        sci: "Terminalia chebula (Gall on leaf)",
+        wiki: "Terminalia chebula",
+        part: "รังแมลงหรือถุงรังที่ใบของต้นสมอ",
+        taste: "รสฝาดจัด เฝื่อน เปรี้ยวชุ่มคอ",
+        benefit: "สมานคอ แก้ไอ ขับเสมหะ สมานลำไส้ แก้บิด แก้ท้องเสีย",
+        img: "https://medthai.com/wp-content/uploads/2015/06/ภาพโกฐพุงปลา.jpg"
+      },
+      "การบูร": {
+        sci: "Cinnamomum camphora (L.) J.Presl",
+        wiki: "การบูร",
+        part: "ผลึกการบูรจากเนื้อไม้",
+        taste: "รสเผ็ดร้อน เย็นซ่า ปร่าหอม",
+        benefit: "บำรุงหัวใจ ขับลม บรรเทาอาการจุกเสียด คลายเส้นเอ็น ทะลวงลม",
+        img: "https://medthai.com/wp-content/uploads/2014/04/การบูร.jpg"
+      },
+      "พิมเสน": {
+        sci: "Dryobalanops aromatica Gaertn.",
+        wiki: "พิมเสน",
+        part: "เกล็ดผลึกพิมเสนจากลำต้น",
+        taste: "รสเผ็ดปร่า เย็นชื่นใจ หอมฉุน",
+        benefit: "บำรุงหัวใจ แก้ลมวิงเวียน หน้ามืด ดับพิษร้อน ถอนพิษไข้",
+        img: "https://medthai.com/wp-content/uploads/2014/05/พิมเสนเกล็ด.jpg"
+      },
+      "เบี้ยจั่นคั่ว": {
+        sci: "Monetaria moneta (Cypraea moneta)",
+        wiki: "เบี้ยจั่น",
+        part: "เปลือกหอยเบี้ยคั่วจนเหลืองกรอบ",
+        taste: "รสเค็มกร่อย เย็นสุขุม",
+        benefit: "ดับพิษร้อน ถอนพิษไข้ แก้กาฬ ละลายพิษตานทราง",
+        img: "https://medthai.com/wp-content/uploads/fatty-liver-symptoms-and-obesity-risks.jpg"
+      },
+      "มะคำดีควาย": {
+        sci: "Sapindus rarak DC.",
+        wiki: "มะคำดีควาย",
+        part: "ผลแก่นำมาสุมไฟจนเป็นถ่าน",
+        taste: "รสขมเบื่อ เย็น",
+        benefit: "ดับพิษไข้ ดับพิษกาฬ แก้ไข้ตัวร้อน แก้สุกใส หัด",
+        img: "https://medthai.com/wp-content/uploads/2014/04/มะคําดีควาย.jpg"
+      },
+      "ทองคำเปลว": {
+        sci: "Aurum (Pure Gold Leaf)",
+        wiki: "ทองคำเปลว",
+        part: "แผ่นทองคำบริสุทธิ์สำหรับปิดเม็ดยา",
+        taste: "รสเย็น จืด สุขุม",
+        benefit: "ดับพิษกาฬ สมานแผล บำรุงหัวใจ เสริมสง่าราศีของยา",
+        img: "https://medthai.com/wp-content/uploads/fatty-liver-symptoms-and-obesity-risks.jpg"
+      }
+    };
+
+    // Database of the 24 Traditional Household Formulas (ยาสามัญประจำบ้าน 24 ขนาน)
+    const MEDICINES_DATA = [
+      {
+        id: 1,
+        name: "ยาประสะกะเพรา",
+        category: "gastro",
+        catName: "ทางเดินอาหาร / ขับลม",
+        dominantTaste: "รสร้อน",
+        overallTaste: "เผ็ด ปร่า หอมฉุน",
+        indications: "แก้ท้องขึ้น ท้องเฟ้อ แน่นจุกเสียด ขับลมในกระเพาะอาหารและลำไส้",
+        vehicle: "น้ำต้มสุก หรือน้ำใบกะเพราต้ม",
+        dosage: "เด็ก 1-3 เดือน ครั้งละ 1-2 เม็ด, เด็ก 4-6 เดือน ครั้งละ 2-3 เม็ด, เด็ก 7-12 เดือน ครั้งละ 4-6 เม็ด",
+        ingredientsWithProportions: [
+          "เกลือสินเธาว์ (1 ส่วน)",
+          "พริกไทย ขิง ดีปลี กระเทียม (2 ส่วน)",
+          "ชะเอมเทศ มหาหิงคุ์ (8 ส่วน)",
+          "ผิวมะกรูด (20 ส่วน)",
+          "ใบกะเพรา (45 ส่วน)"
+        ],
+        directDrugs: ["กระเพรา", "มหาหิงคุ์"],
+        adjuvantDrugs: ["ขิง", "ข่า", "กานพลู", "ดีปลี"],
+        correctiveDrugs: ["กระวาน", "พริกไทย"],
+        flavoringDrugs: ["ผิวมะกรูด", "ชะเอมเทศ"]
+      },
+      {
+        id: 2,
+        name: "ยาวิสัมพยาใหญ่",
+        category: "gastro",
+        catName: "ทางเดินอาหาร / ขับลม",
+        dominantTaste: "รสร้อน",
+        overallTaste: "เผ็ดร้อน ปร่า ขม",
+        indications: "แก้ท้องขึ้น อืดเฟ้อ จุกเสียด อาหารไม่ย่อย",
+        vehicle: "น้ำสุกอุ่น หรือผสมน้ำผึ้ง",
+        dosage: "ผู้ใหญ่: ชนิดผง 1 ช้อนชา, ชนิดเม็ด/แคปซูล 4 เม็ด/แคปซูล ทุก 4 ชั่วโมง",
+        ingredientsWithProportions: [
+          "กระวาน กานพลู โกฐสอ โกฐเขมา โกฐหัวบัว โกฐเชียง โกฐจุฬาลัมพา อบเชย สมุลแว้ง สมอเทศ สมอไทย ว่านน้ำ บอระเพ็ด ขิงแห้ง พญารากขาว (2 ส่วน)",
+          "ลูกผักชีลา ลูกจันทน์ ดอกจันทน์ (8 ส่วน)",
+          "ดีปลี (54 ส่วน)"
+        ],
+        directDrugs: ["ดีปลี", "ลูกจันทน์", "ดอกจันทน์"],
+        adjuvantDrugs: ["ขิง", "พริกไทย", "บอระเพ็ด"],
+        correctiveDrugs: ["โกฐสอ", "โกฐเขมา", "กระวาน"],
+        flavoringDrugs: ["อบเชย", "กานพลู"]
+      },
+      {
+        id: 3,
+        name: "ยาประสะกานพลู",
+        category: "gastro",
+        catName: "ทางเดินอาหาร / ขับลม",
+        dominantTaste: "รสร้อน",
+        overallTaste: "เผ็ดร้อน ปร่า ฝาด เมาหอม",
+        indications: "แก้ปวดท้อง เนื่องจากธาตุไม่ปกติ",
+        vehicle: "น้ำปูนใส หรือน้ำสุก",
+        dosage: "ผู้ใหญ่: ชนิดผง 1 ช้อนชา, ชนิดเม็ด/แคปซูล 2-4 เม็ด/แคปซูล ทุก 3 ชั่วโมง",
+        ingredientsWithProportions: [
+          "เกลือสินเธาว์ (1 ส่วน)",
+          "พริกไทย ขิง ดีปลี กระเทียม (2 ส่วน)",
+          "เทียนดำ เทียนขาว โกฐสอ โกฐกระดูก กำมะถันเหลือง การบูร เปลือกเพกา เปลือกขี้อ้าย ใบกระวาน ลูกกระวาน ลูกผักชีลา แฝกหอม ว่านน้ำ หัวกระชาย เปราะหอม รากแจง กรุงเขมา (4 ส่วน)",
+          "รากข้าวสาร เนื้อไม้ ลูกจันทน์ ขมิ้นชัน (8 ส่วน)",
+          "เปลือกซิก (10 ส่วน)",
+          "กานพลู (125 ส่วน)"
+        ],
+        directDrugs: ["กานพลู"],
+        adjuvantDrugs: ["ดีปลี", "ขิง", "พริกไทย"],
+        correctiveDrugs: ["ลูกจันทน์", "ดอกจันทน์", "กระวาน"],
+        flavoringDrugs: ["การบูร", "พิมเสน"]
+      },
+      {
+        id: 4,
+        name: "ยาแสงหมึก",
+        category: "special",
+        catName: "ยาครอบจักรวาลสำหรับเด็ก",
+        dominantTaste: "รสร้อนสุขุม",
+        overallTaste: "เผ็ดร้อน หอม ขม",
+        indications: "แก้ตัวร้อน, ท้องขึ้นปวดท้อง, แก้ไอขับเสมหะ, แก้แผลในปาก",
+        vehicle: "น้ำดอกไม้เทศ / น้ำใบกะเพรา / น้ำลูกมะแว้ง / น้ำลูกเบญกานี",
+        dosage: "เด็ก 1-6 เดือน ครั้งละ 2 เม็ด, เด็ก 7-12 เดือน ครั้งละ 3 เม็ด ทุก 3 ชั่วโมง",
+        ingredientsWithProportions: [
+          "พิมเสน (1 ส่วน)",
+          "หมึกหอม จันทน์ชะมด ลูกกระวาน จันทน์เทศ ใบพิมเสน ลูกจันทน์ ดอกจันทน์ กานพลู ใบสันพร้าหอม หัวหอม ใบกะเพรา (4 ส่วน)"
+        ],
+        directDrugs: ["เบญกานี", "สารส้ม"],
+        adjuvantDrugs: ["ลูกมะแว้งต้น", "พิมเสน"],
+        correctiveDrugs: ["จันทน์เทศ", "ขิง"],
+        flavoringDrugs: ["ชะเอมเทศ", "ดอกมะลิ"]
+      },
+      {
+        id: 5,
+        name: "ยามันทธาตุ",
+        category: "gastro",
+        catName: "ทางเดินอาหาร / ขับลม",
+        dominantTaste: "รสร้อนสุขุม",
+        overallTaste: "เผ็ดร้อน ขม ฝาดเฝื่อน",
+        indications: "แก้ธาตุไม่ปกติ แก้ท้องขึ้นท้องเฟ้อ",
+        vehicle: "น้ำสุก",
+        dosage: "เด็ก 6-12 ปี ครึ่งช้อนชา / 1-2 เม็ด, ผู้ใหญ่ 1 ช้อนชา / 2-4 เม็ด วันละ 3 ครั้ง",
+        ingredientsWithProportions: [
+          "โกฐสอ โกฐเขมา โกฐหัวบัว โกฐเชียง โกฐจุฬาลัมพา เทียนดำ เทียนแดง เทียนขาว เทียนข้าวเปลือก เทียนตาตั๊กแตน ลูกผักชีล้อม ลูกผักชีลา การบูร กระเทียม เปลือกสมุลแว้ง เปลือกโมกมัน จันทน์แดง จันทน์เทศ กานพลู ดีปลี รากช้าพลู เถาสะค้าน รากเจตมูลเพลิงแดง พริกไทยล่อน ลูกจันทน์ (1 ส่วน)",
+          "ขิง ลูกเบญกานี (3 ส่วน)"
+        ],
+        directDrugs: ["เบญกานี", "ขิง"],
+        adjuvantDrugs: ["ดีปลี", "พริกไทย", "โกฐหัวบัว"],
+        correctiveDrugs: ["โกฐสอ", "โกฐเขมา"],
+        flavoringDrugs: ["ผิวส้มซ่า", "เกสรบัวหลวง"]
+      },
+      {
+        id: 6,
+        name: "ยาประสะเจตพังคี",
+        category: "gastro",
+        catName: "ทางเดินอาหาร / ขับลม",
+        dominantTaste: "รสร้อน",
+        overallTaste: "เผ็ดขม เฝื่อน ปร่า หอมฉุน",
+        indications: "แก้กษัยจุกเสียด",
+        vehicle: "น้ำสุก",
+        dosage: "ครั้งละ 1 ช้อนชา หรือ 2-4 เม็ด/แคปซูล เช้า-เย็น ก่อนอาหาร",
+        ingredientsWithProportions: [
+          "ดอกจันทน์ ลูกจันทน์ ลูกกระวาน ใบกระวาน กานพลู กรุงเขมา การบูร ลูกสมอทะเล พญารากขาว เปลือกหว้า เกลือสินเธาว์ (1 ส่วน)",
+          "พริกไทยล่อน บอระเพ็ด ระย่อม (2 ส่วน)",
+          "ข่า (16 ส่วน)",
+          "เจตพังคี (33 ส่วน)"
+        ],
+        directDrugs: ["เจตพังคี"],
+        adjuvantDrugs: ["ระย่อม", "ขิง", "ดีปลี"],
+        correctiveDrugs: ["พริกไทย", "กระวาน"],
+        flavoringDrugs: ["การบูร", "ผิวส้มซ่า"]
+      },
+      {
+        id: 7,
+        name: "ยามหาจักรใหญ่",
+        category: "gastro",
+        catName: "ทางเดินอาหาร / ขับลม",
+        dominantTaste: "รสร้อน",
+        overallTaste: "เผ็ดขม เฝื่อน ปร่า หอมฉุน",
+        indications: "แก้ลมทราง แก้อาการท้องอืด ท้องเฟ้อ",
+        vehicle: "น้ำสุก",
+        dosage: "เด็กต่ำกว่า 5 ปี ครั้งละ 1-3 เม็ด ก่อนอาหาร เช้า-เย็น",
+        ingredientsWithProportions: [
+          "โกฐสอ โกฐเขมา โกฐพุงปลา โกฐก้านพร้าว โกฐกระดูก เทียนดำ เทียนแดง เทียนขาว เทียนข้าวเปลือก เทียนเยาวพาณี สมอไทย สมอพิเภก มะขามป้อม ลูกจันทน์ ดอกจันทน์ ลูกกระวาน กานพลู ชะเอมเทศ เมล็ดโหระพา ลูกผักชีลา สารส้ม ขมิ้นอ้อย หัวกระเทียม (1 ส่วน)",
+          "ยาดำสะตุ (4 ส่วน)",
+          "ใบกระพังโหม (30 ส่วน)"
+        ],
+        directDrugs: ["กระพังโหม"],
+        adjuvantDrugs: ["ขิง", "ดีปลี", "พริกไทย"],
+        correctiveDrugs: ["โกฐสอ", "โกฐเขมา", "ยาดำ"],
+        flavoringDrugs: ["การบูร", "ชะเอมเทศ"]
+      },
+      {
+        id: 8,
+        name: "ยาตรีหอม",
+        category: "gastro",
+        catName: "ยาระบาย / ถ่ายพิษไข้",
+        dominantTaste: "รสร้อน",
+        overallTaste: "เปรี้ยว ฝาดขม เฝื่อน ชุ่มคอ",
+        indications: "แก้เด็กท้องผูก ระบายพิษไข้",
+        vehicle: "น้ำต้มสุก",
+        dosage: "เด็ก 1-2 เดือน 2-3 เม็ด, 3-5 เดือน 4-5 เม็ด, 6-12 เดือน 6-8 เม็ด ก่อนอาหารเช้า",
+        ingredientsWithProportions: [
+          "โกฐสอ ชะเอมเทศ ลูกซัดคั่ว (1 ส่วน)",
+          "เนื้อลูกสมอเทศ เนื้อลูกสมอพิเภก เนื้อลูกมะขามป้อม ลูกผักชีลา (4 ส่วน)",
+          "เนื้อลูกสมอไทย โกฐน้ำเต้าใหญ่นึ่งสุก (22 ส่วน)"
+        ],
+        directDrugs: ["สมอไทย", "โกฐน้ำเต้า"],
+        adjuvantDrugs: ["สมอพิเภก", "มะขามป้อม"],
+        correctiveDrugs: ["ขิง", "ดีปลี"],
+        flavoringDrugs: ["ชะเอมเทศ", "ดอกมะลิ"]
+      },
+      {
+        id: 9,
+        name: "ยาธรณีสันฑะฆาต",
+        category: "tendon",
+        catName: "แก้ปวดเมื่อย / กษัยเส้น / ท้องผูก",
+        dominantTaste: "รสร้อน",
+        overallTaste: "เผ็ดร้อน ขม เปรี้ยว เอียน ฉุน",
+        indications: "แก้กษัยเส้น เถาดาน ท้องผูก (ห้ามใช้ในสตรีมีครรภ์และคนมีไข้)",
+        vehicle: "น้ำสุก หรือน้ำผึ้ง",
+        dosage: "ผู้ใหญ่ ชนิดผง 0.5-1 ช้อนชา, เม็ด/แคปซูล 2-4 เม็ด ก่อนอาหารเช้าหรือก่อนนอน",
+        ingredientsWithProportions: [
+          "ลูกจันทน์ ดอกจันทน์ ลูกกระวาน กานพลู เทียนดำ เทียนขาว หัวดองดึง หัวบุก หัวกลอย หัวกระดาดขาว หัวกระดาดแดง ลูกเร่ว ขิง ชะเอมเทศ รากเจตมูลเพลิงแดง โกฐกระดูก โกฐเขมา โกฐน้ำเต้า (1 ส่วน)",
+          "ผักแพวแดง เนื้อลูกมะขามป้อม (2 ส่วน)",
+          "รงทอง (ประสะแล้ว) (4 ส่วน)",
+          "เนื้อลูกสมอไทย มหาหิงคุ์ การบูร (6 ส่วน)",
+          "ยาดำ (20 ส่วน)",
+          "พริกไทยล่อน (96 ส่วน)"
+        ],
+        directDrugs: ["รงทอง", "ยาดำ"],
+        adjuvantDrugs: ["พริกไทย", "มหาหิงคุ์", "การบูร"],
+        correctiveDrugs: ["ขิง", "ดีปลี", "โกฐน้ำเต้า"],
+        flavoringDrugs: ["ผิวส้มซ่า", "กานพลู"]
+      },
+      {
+        id: 10,
+        name: "ยาถ่าย",
+        category: "gastro",
+        catName: "ยาระบาย / ยาถ่าย",
+        dominantTaste: "รสสุขุม",
+        overallTaste: "ขม เค็ม เอียน เปรี้ยว",
+        indications: "แก้ท้องผูก",
+        vehicle: "น้ำสุกอุ่น",
+        dosage: "ผู้ใหญ่ ครั้งละ 2-5 เม็ด/แคปซูล ก่อนนอน ตามธาตุหนักเบา",
+        ingredientsWithProportions: [
+          "ใบมะกา ใบมะขาม ใบส้มป่อย หญ้าไทร ใบไผ่ป่า ฝักคูน รากขี้กาแดง รากขี้กาขาว รากตองแตก เถาวัลย์เปรียง หัวหอม ฝักส้มป่อย สมอไทย สมอดีงู ขี้เหล็กทั้ง 5 (1 ส่วน)",
+          "ยาดำ (4 ส่วน)",
+          "ดีเกลือฝรั่ง (20 ส่วน)"
+        ],
+        directDrugs: ["ดีเกลือฝรั่ง"],
+        adjuvantDrugs: ["ยาดำ", "ใบมะกา"],
+        correctiveDrugs: ["ขิง", "พริกไทย"],
+        flavoringDrugs: ["ชะเอมเทศ", "ผิวส้มซ่า"]
+      },
+      {
+        id: 11,
+        name: "ยาเหลืองปิดสมุทร",
+        category: "gastro",
+        catName: "ทางเดินอาหาร / แก้ท้องเสีย",
+        dominantTaste: "รสเย็นสุขุม",
+        overallTaste: "ฝาด เฝื่อน เผ็ดขม",
+        indications: "แก้ท้องเสีย",
+        vehicle: "น้ำเปลือกลูกทับทิมหรือเปลือกแคต้มกับน้ำปูนใส",
+        dosage: "เด็ก 3-5 เดือน 2 เม็ด, 6-12 เดือน 3-4 เม็ด, 1-5 ปี 4-7 เม็ด, 6-12 ปี 8-10 เม็ด วันละ 3 ครั้ง",
+        ingredientsWithProportions: [
+          "แห้วหมู ขมิ้นอ้อย เปลือกเพกา รากกล้วยตีบ กระเทียมคั่ว ดีปลี ชันย้อย ครั่ง สีเสียดเทศ สีเสียดไทย ใบเทียน ใบทับทิม (1 ส่วน)",
+          "ขมิ้นชัน (6 ส่วน)"
+        ],
+        directDrugs: ["รากกล้วยตีบ", "สีเสียดเทศ", "สีเสียดไทย"],
+        adjuvantDrugs: ["ขมิ้นอ้อย", "ชันย้อย", "ครั่ง"],
+        correctiveDrugs: ["ดีปลี", "ขิง"],
+        flavoringDrugs: ["ชะเอมเทศ", "พิมเสน"]
+      },
+      {
+        id: 12,
+        name: "ยาธาตุบรรจบ",
+        category: "gastro",
+        catName: "ทางเดินอาหาร / แก้ท้องเสีย",
+        dominantTaste: "รสสุขุม",
+        overallTaste: "เผ็ดร้อน เปรี้ยวฝาด ขมปร่า หอม",
+        indications: "แก้ธาตุไม่ปกติ ท้องเสีย ท้องขึ้น ท้องเฟ้อ",
+        vehicle: "น้ำเปลือกแค/สะเดา/ทับทิม หรือน้ำสุก",
+        dosage: "เด็ก 6-12 ปี ครึ่งช้อนชา, ผู้ใหญ่ 1 ช้อนชา วันละ 3 ครั้ง ก่อนอาหาร",
+        ingredientsWithProportions: [
+          "ขิง โกฐเขมา โกฐพุงปลา โกฐเชียง โกฐสอ เทียนดำ เทียนขาว เทียนสัตตบุษย์ เทียนเยาวพาณี เทียนแดง ลูกจันทน์ ดอกจันทน์ กานพลู การบูร เปลือกสมุลแว้ง ลูกกระวาน ลูกผักชีลา ใบพิมเสน ดีปลี เปราะหอม (4 ส่วน)",
+          "โกฐก้านพร้าว (8 ส่วน)",
+          "เนื้อลูกสมอไทย (16 ส่วน)"
+        ],
+        directDrugs: ["สีเสียดเทศ", "สมอไทย"],
+        adjuvantDrugs: ["ขิง", "ดีปลี", "พริกไทย"],
+        correctiveDrugs: ["โกฐสอ", "โกฐเขมา", "เบญกานี"],
+        flavoringDrugs: ["การบูร", "ลูกจันทน์"]
+      },
+      {
+        id: 13,
+        name: "ยาจันทลีลา",
+        category: "fever",
+        catName: "แก้ไข้ / ร้อนใน",
+        dominantTaste: "รสเย็น",
+        overallTaste: "ขม หอมเย็น สุขุม",
+        indications: "แก้ไข้ ตัวร้อน",
+        vehicle: "น้ำสุก",
+        dosage: "เด็ก 6-12 ปี 0.5-1 ช้อนชา / 1-2 เม็ด, ผู้ใหญ่ 1-2 ช้อนชา / 2-4 เม็ด ทุก 4 ชั่วโมง",
+        ingredientsWithProportions: [
+          "พิมเสน (1 ส่วน)",
+          "โกฐสอ โกฐเขมา โกฐจุฬาลัมพา จันทน์ขาว จันทน์แดง ลูกกระดอม บอระเพ็ด รากปลาไหลเผือก (4 ส่วน)"
+        ],
+        directDrugs: ["ปลาไหลเผือก", "ลูกกระดอม", "บอระเพ็ด"],
+        adjuvantDrugs: ["จันทน์แดง", "จันทน์เทศ", "โกฐสอ"],
+        correctiveDrugs: ["โกฐเขมา", "โกฐหัวบัว"],
+        flavoringDrugs: ["พิมเสน", "เกสรบัวหลวง"]
+      },
+      {
+        id: 14,
+        name: "ยาประสะจันทน์แดง",
+        category: "fever",
+        catName: "แก้ไข้ / ร้อนใน",
+        dominantTaste: "รสเย็น",
+        overallTaste: "ขม ฝาด หอมเย็น",
+        indications: "แก้ไข้ตัวร้อน กระหายน้ำ",
+        vehicle: "น้ำสุก หรือน้ำดอกมะลิ",
+        dosage: "เด็ก 6-12 ปี 0.5-1 ช้อนชา / 1-2 เม็ด, ผู้ใหญ่ 1 ช้อนชา / 2-4 เม็ด ทุก 3 ชั่วโมง",
+        ingredientsWithProportions: [
+          "เกสรบัวหลวง ดอกบุนนาค ดอกสารภี ดอกมะลิ (1 ส่วน)",
+          "รากเหมือดคน รากมะปรางหวาน รากมะนาว เปราะหอม โกฐหัวบัว จันทน์เทศ ฝางเสน (4 ส่วน)",
+          "จันทน์แดง (32 ส่วน)"
+        ],
+        directDrugs: ["จันทน์แดง"],
+        adjuvantDrugs: ["จันทน์เทศ", "เกสรบัวหลวง", "ดอกมะลิ"],
+        correctiveDrugs: ["รากกล้วยตีบ", "โกฐสอ"],
+        flavoringDrugs: ["พิมเสน", "ชะเอมเทศ"]
+      },
+      {
+        id: 15,
+        name: "ยาเขียวหอม",
+        category: "fever",
+        catName: "แก้ไข้ / ถอนพิษตุ่มผื่น",
+        dominantTaste: "รสเย็น",
+        overallTaste: "ขม ปร่า หอมเย็นชื่นใจ",
+        indications: "แก้ตัวร้อน ร้อนใน กระหายน้ำ แก้พิษหัด พิษสุกใส",
+        vehicle: "น้ำสุก, น้ำดอกมะลิ หรือน้ำรากผักชีต้ม",
+        dosage: "เด็ก 6-12 ปี 0.5 ช้อนชา, ผู้ใหญ่ 1 ช้อนชา วันละ 4-6 ครั้ง",
+        ingredientsWithProportions: [
+          "ใบพิมเสน ใบผักกระโฉม ใบหมากผู้ ใบหมากเมีย ใบสันพร้าหอม รากแฝกหอม เปราะหอม จันทน์เทศ จันทน์แดง ว่านกีบแรด ว่านร่อนทอง เนระพูสี พิษนาศน์ มหาสดำ ดอกพิกุล ดอกบุนนาค ดอกสารภี เกสรบัวหลวง (1 ส่วน)"
+        ],
+        directDrugs: ["ใบพิมเสน", "เกสรบัวหลวง", "ดอกมะลิ"],
+        adjuvantDrugs: ["จันทน์แดง", "จันทน์เทศ", "บอระเพ็ด"],
+        correctiveDrugs: ["เปราะหอม", "โกฐสอ"],
+        flavoringDrugs: ["พิมเสน", "ชะเอมเทศ"]
+      },
+      {
+        id: 16,
+        name: "ยามหานิลแท่งทอง",
+        category: "fever",
+        catName: "แก้ไข้ / ถอนพิษตุ่มผื่น",
+        dominantTaste: "รสเย็น",
+        overallTaste: "ขม หอมเย็น สุขุม",
+        indications: "แก้ไข้ แก้กระหายน้ำ แก้หัด อีสุกอีใส",
+        vehicle: "น้ำรากผักชีต้ม",
+        dosage: "เด็ก 6-12 ปี 1-2 เม็ด, ผู้ใหญ่ 3-4 เม็ด วันละ 2 ครั้ง",
+        ingredientsWithProportions: [
+          "เนื้อในเม็ดสะบ้ามอญสุม หวายตะค้าสุม เม็ดมะกอกสุม ลูกมะคำดีควายสุม ถ่านไม้สัก จันทน์แดง จันทน์เทศ ใบพิมเสน ใบย่านาง หมึกหอม (1 ส่วน)",
+          "เบี้ยจั่นคั่วให้เหลือง (3 เบี้ย)"
+        ],
+        directDrugs: ["เบี้ยจั่นคั่ว", "มะคำดีควาย"],
+        adjuvantDrugs: ["สะบ้ามอญ", "ถ่านไม้สัก"],
+        correctiveDrugs: ["หวายตะค้า", "บอระเพ็ด"],
+        flavoringDrugs: ["พิมเสน", "ทองคำเปลว"]
+      },
+      {
+        id: 17,
+        name: "ยาหอมเทพจิตร",
+        category: "aromatic",
+        catName: "ยาหอม / บำรุงหัวใจ",
+        dominantTaste: "รสสุขุม",
+        overallTaste: "ขมปร่า หอมเย็นชื่นใจ",
+        indications: "แก้ลมวิงเวียน หน้ามืดตาลาย บำรุงดวงจิตให้ชุ่มชื่น",
+        vehicle: "น้ำดอกไม้เทศ หรือน้ำสุก",
+        dosage: "ครั้งละ 5-7 เม็ด เมื่อมีอาการ ไม่เกินวันละ 3 ครั้ง",
+        ingredientsWithProportions: [
+          "การบูร (1 ส่วน)",
+          "ลูกจันทน์ ดอกจันทน์ ลูกกระวาน กานพลู จันทน์แดง จันทน์ขาว กฤษณา กระลําพัก ขอนดอก ชะลูด อบเชย เปราะหอม แฝกหอม (2 ส่วน)",
+          "ผิวมะกรูด ผิวมะงั่ว ผิวมะนาว ผิวส้มตะรังกะนู ผิวส้มจีน ผิวส้มโอ ผิวส้มเขียวหวาน ดอกพิกุล ดอกบุนนาค ดอกสารภี เกสรบัวหลวง ดอกบัวขม ดอกบัวเผื่อน โกฐสอ โกฐเขมา โกฐหัวบัว โกฐเชียง โกฐจุฬาลัมพา โกฐกระดูก โกฐก้านพร้าว โกฐพุงปลา โกฐชฎามังส เทียนดำ เทียนแดง เทียนขาว เทียนข้าวเปลือก เทียนตาตั๊กแตน เทียนเยาวพาณี เทียนสัตตบุษย์ เทียนเกล็ดหอย เทียนตากบ (4 ส่วน)",
+          "ผิวส้มซ่า (28 ส่วน)",
+          "ดอกมะลิ (183 ส่วน)"
+        ],
+        directDrugs: ["เกสรบัวหลวง", "ดอกมะลิ"],
+        adjuvantDrugs: ["จันทน์แดง", "จันทน์เทศ", "โกฐสอ"],
+        correctiveDrugs: ["โกฐเขมา", "โกฐหัวบัว"],
+        flavoringDrugs: ["ผิวส้มซ่า", "พิมเสน", "การบูร"]
+      },
+      {
+        id: 18,
+        name: "ยาหอมทิพโอสถ",
+        category: "aromatic",
+        catName: "ยาหอม / บำรุงหัวใจ",
+        dominantTaste: "รสสุขุม",
+        overallTaste: "เผ็ดขมปร่า หอมเย็น",
+        indications: "แก้ลมวิงเวียน",
+        vehicle: "น้ำดอกไม้ หรือน้ำสุก",
+        dosage: "ชนิดผง 0.5-1 ช้อนชา, เม็ด 3-5 เม็ด เมื่อมีอาการ",
+        ingredientsWithProportions: [
+          "เทียนดำ เทียนแดง เทียนขาว เทียนข้าวเปลือก เทียนตาตั๊กแตน เทียนเยาวพาณี เทียนสัตตบุษย์ เทียนเกล็ดหอย เทียนตากบ การบูร (1 ส่วน)",
+          "โกฐสอ โกฐเขมา โกฐหัวบัว โกฐเชียง โกฐจุฬาลัมพา โกฐกระดูก โกฐก้านพร้าว โกฐพุงปลา โกฐชฎามังส พิมเสน (2 ส่วน)",
+          "ดอกพิกุล ดอกบุนนาค ดอกสารภี ดอกมะลิ เกสรบัวหลวง ดอกกระดังงา ดอกจำปา ดอกบัวจงกลนี หัวแห้วไทย กระจับ ฝาง จันทน์แดง จันทน์ขาว จันทน์เทศ กฤษณา ชะลูด อบเชย สมุลแว้ง สนเทศ ว่านน้ํา กระชาย เปราะหอม ดอกคำไทย ชะเอมเทศ สุรามฤต ข่าต้น ลูกจันทน์ ดอกจันทน์ (4 ส่วน)"
+        ],
+        directDrugs: ["ดอกมะลิ", "เกสรบัวหลวง"],
+        adjuvantDrugs: ["จันทน์แดง", "กานพลู", "ดีปลี"],
+        correctiveDrugs: ["โกฐสอ", "โกฐหัวบัว"],
+        flavoringDrugs: ["ผิวส้มซ่า", "พิมเสน"]
+      },
+      {
+        id: 19,
+        name: "ยาหอมอินทจักร์",
+        category: "aromatic",
+        catName: "ยาหอม / ครอบจักรวาล",
+        dominantTaste: "รสสุขุม",
+        overallTaste: "เผ็ดร้อน ขมปร่า หอมฉุน",
+        indications: "แก้ลมบาดทะจิต, คลื่นเหียนอาเจียน, ลมจุกเสียด",
+        vehicle: "น้ำดอกมะลิ / น้ำลูกผักชีเทียนดำต้ม / น้ำขิงต้ม",
+        dosage: "ชนิดผง 0.5-1 ช้อนชา, เม็ด 3-5 เม็ด ทุก 3 ชั่วโมง",
+        ingredientsWithProportions: [
+          "สะค้าน รากช้าพลู ขิง ดีปลี รากเจตมูลเพลิงแดง ลูกผักชีลา โกฐสอ โกฐเขมา โกฐก้านพร้าว โกฐพุงปลา โกฐจุฬาลัมพา โกฐเชียง โกฐกักกรา โกฐน้ำเต้า โกฐกระดูก เทียนดำ เทียนขาว เทียนแดง เทียนข้าวเปลือก เทียนเยาวพาณี จันทน์แดง จันทน์เทศ เถามวกแดง เถามวกขาว รากย่านาง เปลือกชะลูด อบเชย เปลือกสมุลแว้ง กฤษณา กระลำพัก บอระเพ็ด ลูกกระดอม กำยาน ขอนดอก ลูกจันทน์ ดอกจันทน์ ลูกกระวาน กานพลู ลําพันแดง ดอกสารภี ดอกพิกุล ดอกบุนนาค ดอกจำปา ดอกกระดังงา ดอกมะลิ ดอกคำไทย ฝางเสน ดีวัว พิมเสน (1 ส่วน)"
+        ],
+        directDrugs: ["บอระเพ็ด", "เกสรบัวหลวง"],
+        adjuvantDrugs: ["ดีปลี", "กานพลู", "ขิง"],
+        correctiveDrugs: ["โกฐหัวบัว", "โกฐสอ"],
+        flavoringDrugs: ["ผิวส้มซ่า", "การบูร", "พิมเสน"]
+      },
+      {
+        id: 20,
+        name: "ยาหอมนวโกฐ",
+        category: "aromatic",
+        catName: "ยาหอม / บำรุงหัวใจ",
+        dominantTaste: "รสสุขุมหอมร้อน",
+        overallTaste: "เผ็ดร้อน ขมปร่า เปรี้ยวฝาดหอม",
+        indications: "แก้ลมคลื่นเหียนอาเจียน, แก้ลมปลายไข้",
+        vehicle: "น้ำลูกผักชีเทียนดำต้ม / น้ำต้มก้านสะเดากระดอมบอระเพ็ด",
+        dosage: "ชนิดผง 0.5-1 ช้อนชา, เม็ด 3-5 เม็ด ทุก 3 ชั่วโมง",
+        ingredientsWithProportions: [
+          "พิมเสน (1 ส่วน)",
+          "ขิงแห้ง ดีปลี เจตมูลเพลิงแดง สะค้าน ช้าพลู (3 ส่วน)",
+          "แห้วหมู โกฐสอ โกฐเขมา โกฐหัวบัว โกฐเชียง โกฐจุฬาลัมพา โกฐกระดูก โกฐก้านพร้าว โกฐพุงปลา โกฐชฎามังสี เทียนดำ เทียนแดง เทียนขาว เทียนข้าวเปลือก เทียนตาตั๊กแตน เทียนเยาวพาณี เทียนสัตตบุษย์ เทียนเกล็ดหอย เทียนตากบ สักขี ลูกราชดัด ลูกสารพัดพิษ ลูกกระวาน กานพลู ดอกจันทน์ ลูกจันทน์ จันทน์เทศ จันทน์แดง อบเชยญวน เปลือกสมุลแว้ง หญ้าตีนนก แฝกหอม เปลือกชะลูด เปราะหอม เนื้อไม้ ขอนดอก กระลําพัก เนื้อลูกมะขามป้อม เนื้อลูกสมอพิเภก ชะเอมเทศ ลูกผักชีลา ลูกกระดอม บอระเพ็ด เกสรบัวหลวง ดอกบุนนาค ดอกพิกุล ดอกสารภี ดอกมะลิ แก่นสน (4 ส่วน)"
+        ],
+        directDrugs: ["โกฐหัวบัว", "โกฐสอ", "โกฐเขมา"],
+        adjuvantDrugs: ["ขิง", "ดีปลี", "กานพลู"],
+        correctiveDrugs: ["สมอไทย", "สมอพิเภก"],
+        flavoringDrugs: ["ผิวส้มซ่า", "การบูร", "พิมเสน"]
+      },
+      {
+        id: 21,
+        name: "ยาอำมฤควาที",
+        category: "resp",
+        catName: "แก้ไอ / ทางเดินหายใจ",
+        dominantTaste: "รสสุขุม",
+        overallTaste: "หวาน เปรี้ยวฝาด หอมชุ่มคอ",
+        indications: "แก้ไอ ขับเสมหะ",
+        vehicle: "น้ำมะนาวแทรกเกลือ",
+        dosage: "เด็ก 6-12 ปี 0.5 ช้อนชา, ผู้ใหญ่ 1 ช้อนชา",
+        ingredientsWithProportions: [
+          "โกฐพุงปลา เทียนขาว ลูกผักชีลา เนื้อลูกมะขามป้อม เนื้อลูกสมอพิเภก (1 ส่วน)",
+          "ชะเอมเทศ (5 ส่วน)"
+        ],
+        directDrugs: ["มะขามป้อม", "สมอพิเภก"],
+        adjuvantDrugs: ["โกฐพุงปลา", "เทียนขาว"],
+        correctiveDrugs: ["ลูกผักชีลา"],
+        flavoringDrugs: ["ชะเอมเทศ", "พิมเสน"]
+      },
+      {
+        id: 22,
+        name: "ยาประสะมะแว้ง",
+        category: "resp",
+        catName: "แก้ไอ / ทางเดินหายใจ",
+        dominantTaste: "รสสุขุม",
+        overallTaste: "เปรี้ยวฝาด ขม ร้อน หวานชุ่ม",
+        indications: "แก้ไอ แก้เสมหะ",
+        vehicle: "น้ำมะนาวแทรกเกลือ หรืออม",
+        dosage: "เด็ก 6-12 ปี 1-2 เม็ด, ผู้ใหญ่ 5-7 เม็ด",
+        ingredientsWithProportions: [
+          "สารส้ม (1 ส่วน)",
+          "ขมิ้นอ้อย (3 ส่วน)",
+          "ใบสวาด ใบตานหม่อน ใบกะเพรา (4 ส่วน)",
+          "ลูกมะแว้งต้น ลูกมะแว้งเครือ (8 ส่วน)"
+        ],
+        directDrugs: ["สารส้ม"],
+        adjuvantDrugs: ["ลูกมะแว้งต้น", "ลูกมะแว้งเครือ"],
+        correctiveDrugs: ["ขมิ้นอ้อย", "กระเพรา"],
+        flavoringDrugs: ["ชะเอมเทศ"]
+      },
+      {
+        id: 23,
+        name: "ยาประสะไพล",
+        category: "special",
+        catName: "ยาสตรี / ขับระดู",
+        dominantTaste: "รสร้อน",
+        overallTaste: "ร้อนเผ็ด หอมฉุน ปร่า",
+        indications: "แก้จุกเสียด แก้ระดูไม่ปกติ ขับน้ำคาวปลา",
+        vehicle: "น้ำสุก หรือน้ำสุรา",
+        dosage: "ชนิดผง 1 ช้อนชา, เม็ด/แคปซูล 2-4 เม็ด วันละ 3 ครั้ง ก่อนอาหาร",
+        ingredientsWithProportions: [
+          "การบูร (1 ส่วน)",
+          "ผิวมะกรูด ว่านน้ำ กระเทียม หัวหอม พริกไทย ดีปลี ขิง ขมิ้นอ้อย เทียนดำ เกลือสินเธาว์ (8 ส่วน)",
+          "ไพล (81 ส่วน)"
+        ],
+        directDrugs: ["ไพล"],
+        adjuvantDrugs: ["ผิวมะกรูด", "ว่านน้ำ", "กระเทียม"],
+        correctiveDrugs: ["ขิง", "ดีปลี", "พริกไทย"],
+        flavoringDrugs: ["การบูร"]
+      },
+      {
+        id: 24,
+        name: "ยาประสะเปราะใหญ่",
+        category: "fever",
+        catName: "ยาแก้ไข้เด็ก / ต้านทราง",
+        dominantTaste: "รสร้อนสุขุม",
+        overallTaste: "ปร่า ขมฝาด กลิ่นหอมระเหย",
+        indications: "ถอนพิษไข้ตานทรางสำหรับเด็กอายุต่ำกว่า 5 ปี",
+        vehicle: "น้ำดอกไม้เทศ หรือน้ำสุก / น้ำสุราสุมกระหม่อม",
+        dosage: "ครั้งละ 0.5-1 ช้อนชา ทุก 3 ชั่วโมง",
+        ingredientsWithProportions: [
+          "โกฐสอ โกฐเขมา โกฐหัวบัว โกฐเชียง โกฐจุฬาลัมพา เทียนดำ เทียนแดง เทียนขาว เทียนข้าวเปลือก เทียนตาตั๊กแตน ลูกจันทน์ ดอกจันทน์ ลูกกระวาน กานพลู จันทน์ขาว จันทน์แดง ดอกบุนนาค ดอกสารภี ดอกพิกุล เกสรบัวหลวง (1 ส่วน)",
+          "เปราะหอม (20 ส่วน)"
+        ],
+        directDrugs: ["เปราะหอม"],
+        adjuvantDrugs: ["โกฐสอ", "โกฐเขมา", "จันทน์แดง"],
+        correctiveDrugs: ["ขิง", "กระวาน"],
+        flavoringDrugs: ["พิมเสน", "เกสรบัวหลวง"]
+      }
+    ];
+
+
+        // State Variables
+    let currentCategory = 'all';
+    let currentSearchTerm = '';
+    let flashcardIndex = 0;
+    let isAnswerShown = false;
+    let currentModalHerbName = '';
+
+    // Initialize App
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      renderMedicines();
+      updateStats();
+    });
+
+    // Render Medicine Cards
+    function renderMedicines() {
+      const container = document.getElementById('medicinesContainer');
+      const emptyState = document.getElementById('emptyState');
+      container.innerHTML = '';
+
+      const filtered = MEDICINES_DATA.filter(med => {
+        const matchesCat = currentCategory === 'all' || med.category === currentCategory;
+        const s = currentSearchTerm.toLowerCase();
+        const matchesSearch = !s || 
+          med.name.toLowerCase().includes(s) ||
+          med.indications.toLowerCase().includes(s) ||
+          med.catName.toLowerCase().includes(s) ||
+          med.dominantTaste.toLowerCase().includes(s) ||
+          [...med.directDrugs, ...med.adjuvantDrugs, ...med.correctiveDrugs, ...med.flavoringDrugs].some(h => h.toLowerCase().includes(s));
+        return matchesCat && matchesSearch;
+      });
+
+      document.getElementById('resultCount').innerText = `กำลังแสดง ${filtered.length} ตำรับยา`;
+
+      if (filtered.length === 0) {
+        emptyState.classList.remove('hidden');
+        container.classList.add('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+        container.classList.remove('hidden');
+
+        filtered.forEach(med => {
+          const card = document.createElement('div');
+          card.className = "bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow border border-emerald-100 flex flex-col justify-between";
+
+          // Generate Pill Badges for herbs
+          const renderHerbBadges = (herbs, roleClass, roleName) => {
+            if (!herbs || herbs.length === 0) return '<span class="text-xs text-gray-400">-</span>';
+            return herbs.map(h => `
+              <button 
+                onclick="openHerbModal('${h}', '${roleName}')"
+                class="herb-btn inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-md font-medium ${roleClass}"
+                title="คลิกเพื่อดูรูป ${h}"
+              >
+                <span>🌿</span> ${h}
+              </button>
+            `).join('');
+          };
+
+          card.innerHTML = `
+            <div>
+              <!-- Header of Card -->
+              <div class="flex items-start justify-between gap-2 border-b border-gray-100 pb-3 mb-3">
+                <div>
+                  <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-herb-700 border border-emerald-200 inline-block mb-1">
+                    ${med.catName}
+                  </span>
+                  <h3 class="text-xl font-bold font-display text-herb-900 tracking-wide">${med.name}</h3>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-200">
+                    รสประธาน: ${med.dominantTaste}
+                  </span>
+                  <p class="text-[11px] text-gray-500 mt-1">รสรวม: ${med.overallTaste}</p>
+                </div>
+              </div>
+
+              <!-- Indications & Usage -->
+              <div class="mb-4">
+                <p class="text-xs font-bold text-emerald-900 flex items-center gap-1 mb-1">
+                  <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-600"></i> สรรพคุณทางยา:
+                </p>
+                <p class="text-xs text-gray-700 leading-relaxed bg-gray-50 p-2.5 rounded-lg border border-gray-100">
+                  ${med.indications}
+                </p>
+              </div>
+
+              <!-- Ingredients & Proportions from Official MD -->
+              <div class="mb-4 p-3 rounded-xl bg-emerald-50/60 border border-emerald-200 text-xs">
+                <p class="font-bold text-emerald-950 mb-1.5 flex items-center gap-1">
+                  <i data-lucide="list-tree" class="w-4 h-4 text-emerald-600"></i> วัตถุส่วนประกอบและสัดส่วน:
+                </p>
+                <ul class="list-disc list-inside space-y-1 text-gray-700">
+                  ${med.ingredientsWithProportions ? med.ingredientsWithProportions.map(item => `<li>${item}</li>`).join('') : '<li>ตามพิกัดยาโบราณ</li>'}
+                </ul>
+              </div>
+
+              <!-- Formulation Breakdown (4 Elements) -->
+              <div class="space-y-2.5 text-xs">
+                <div class="p-2 rounded-lg bg-rose-50/50 border border-rose-100">
+                  <div class="font-bold text-rose-900 mb-1.5 flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-rose-600"></span> 1. ตัวยาตรง (ออกฤทธิ์หลัก):
+                  </div>
+                  <div class="flex flex-wrap gap-1.5">
+                    ${renderHerbBadges(med.directDrugs, 'bg-rose-100 text-rose-900 hover:bg-rose-200 border border-rose-300', 'ตัวยาตรง')}
+                  </div>
+                </div>
+
+                <div class="p-2 rounded-lg bg-amber-50/50 border border-amber-100">
+                  <div class="font-bold text-amber-900 mb-1.5 flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-amber-500"></span> 2. ตัวยาช่วย (เสริมฤทธิ์):
+                  </div>
+                  <div class="flex flex-wrap gap-1.5">
+                    ${renderHerbBadges(med.adjuvantDrugs, 'bg-amber-100 text-amber-900 hover:bg-amber-200 border border-amber-300', 'ตัวยาช่วย')}
+                  </div>
+                </div>
+
+                <div class="p-2 rounded-lg bg-sky-50/50 border border-sky-100">
+                  <div class="font-bold text-sky-900 mb-1.5 flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-sky-500"></span> 3. ตัวยาประกอบ (คุมฤทธิ์แทรกซ้อน):
+                  </div>
+                  <div class="flex flex-wrap gap-1.5">
+                    ${renderHerbBadges(med.correctiveDrugs, 'bg-sky-100 text-sky-900 hover:bg-sky-200 border border-sky-300', 'ตัวยาประกอบ')}
+                  </div>
+                </div>
+
+                <div class="p-2 rounded-lg bg-emerald-50/50 border border-emerald-100">
+                  <div class="font-bold text-emerald-900 mb-1.5 flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 4. ชูกลิ่น ชูรส (แต่งกลิ่นหอมรับประทานง่าย):
+                  </div>
+                  <div class="flex flex-wrap gap-1.5">
+                    ${renderHerbBadges(med.flavoringDrugs, 'bg-emerald-100 text-emerald-900 hover:bg-emerald-200 border border-emerald-300', 'ชูกลิ่น ชูรส')}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer Specs of card -->
+            <div class="mt-4 pt-3 border-t border-gray-100 flex flex-col gap-1 text-[11px] text-gray-500">
+              <div><strong class="text-gray-700">น้ำกระสายยา:</strong> ${med.vehicle}</div>
+              <div><strong class="text-gray-700">ขนาดรับประทาน:</strong> ${med.dosage}</div>
+            </div>
+          `;
+
+          container.appendChild(card);
+        });
+      }
+      lucide.createIcons();
+    }
+
+    // Modal Control for Individual Herb
+    function openHerbModal(herbName, roleName = "") {
+      const modal = document.getElementById('herbModal');
+      currentModalHerbName = herbName;
+
+      const herb = HERBS_DB[herbName] || {
+        sci: "สมุนไพรในคลังเภสัชกรรมไทย",
+        wiki: herbName,
+        part: "ส่วนของพืชตามระบุในตำรับ",
+        taste: "รสตามพิกัดเภสัชกรรม",
+        benefit: `สมุนไพรสำคัญในระบบเภสัชกรรมไทย มีบทบาทช่วยปรับสมดุลธาตุในตำรับ ${herbName}`,
+        img: ""
+      };
+
+      document.getElementById('modalHerbName').innerText = herbName;
+      document.getElementById('modalSciName').innerText = herb.sci;
+      document.getElementById('modalPartUsed').innerText = herb.part;
+      document.getElementById('modalTaste').innerText = herb.taste;
+      document.getElementById('modalHerbBenefit').innerText = herb.benefit;
+      document.getElementById('fallbackHerbName').innerText = herbName;
+
+      // Google search button link
+      const googleBtn = document.getElementById('btnGoogleSearch');
+      googleBtn.href = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent('สมุนไพร ' + herbName + ' ' + (herb.sci || ''))}`;
+
+      // Reset custom URL input
+      document.getElementById('customUrlBox').classList.add('hidden');
+      const customKey = 'custom_herb_' + herbName;
+      const savedCustomUrl = localStorage.getItem(customKey);
+      document.getElementById('customUrlInput').value = savedCustomUrl || '';
+
+      const roleBadge = document.getElementById('modalRoleBadge');
+      if (roleName) {
+        roleBadge.innerText = roleName;
+        roleBadge.classList.remove('hidden');
+      } else {
+        roleBadge.classList.add('hidden');
+      }
+
+      // Load Image with Prioritized Sequence:
+      // 1. User's saved custom image
+      // 2. Verified image in HERBS_DB
+      // 3. Auto-fetch from Wikipedia API (Thai or English via sci name)
+      loadImageForHerb(herbName, herb);
+
+      // Find in medicines list
+      const foundInList = MEDICINES_DATA.filter(m => 
+        [...m.directDrugs, ...m.adjuvantDrugs, ...m.correctiveDrugs, ...m.flavoringDrugs].includes(herbName)
+      );
+
+      const foundInContainer = document.getElementById('modalFoundIn');
+      foundInContainer.innerHTML = foundInList.map(m => `
+        <span class="text-[11px] px-2.5 py-1 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium">
+          ${m.name}
+        </span>
+      `).join('');
+
+      modal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      lucide.createIcons();
+    }
+
+    function loadImageForHerb(herbName, herb) {
+      const img = document.getElementById('modalHerbImg');
+      const placeholder = document.getElementById('imgPlaceholder');
+      const loading = document.getElementById('imgLoading');
+      const sourceTag = document.getElementById('imgSourceTag');
+
+      loading.classList.remove('hidden');
+      img.classList.remove('hidden');
+      placeholder.classList.add('hidden');
+
+      const customKey = 'custom_herb_' + herbName;
+      const customUrl = localStorage.getItem(customKey);
+
+      if (customUrl && customUrl.trim() !== '') {
+        sourceTag.innerText = 'รูปที่คุณบันทึกไว้';
+        img.src = customUrl;
+        return;
+      }
+
+      if (herb.img && herb.img.trim() !== '') {
+        sourceTag.innerText = 'รูปจากคลังภาพ';
+        img.src = herb.img;
+      } else {
+        // No local image, fetch dynamically from Wikipedia
+        fetchFromWikipedia(herbName, herb);
+      }
+    }
+
+    // Dynamic Live Wikipedia API Fetcher
+    async function fetchFromWikipedia(herbName, herb) {
+      const img = document.getElementById('modalHerbImg');
+      const sourceTag = document.getElementById('imgSourceTag');
+      
+      const targets = [
+        { lang: 'th', title: herb.wiki || herbName },
+        { lang: 'en', title: herb.sci ? herb.sci.split(' ')[0] + ' ' + (herb.sci.split(' ')[1] || '') : '' }
+      ];
+
+      for (let t of targets) {
+        if (!t.title) continue;
+        try {
+          const res = await fetch(`https://${t.lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(t.title)}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.thumbnail && data.thumbnail.source) {
+              sourceTag.innerText = `ดึงจาก Wikipedia (${t.lang}) - ความละเอียดสูง`;
+              let fullUrl = data.thumbnail.source;
+              if (fullUrl.includes('/thumb/')) {
+                fullUrl = fullUrl.replace('/thumb/', '/');
+                fullUrl = fullUrl.substring(0, fullUrl.lastIndexOf('/'));
+              }
+              img.src = fullUrl;
+              return;
+            }
+          }
+        } catch (e) {
+          console.warn('Wikipedia API fetch notice:', e);
+        }
+      }
+
+      // If all failed
+      handleImgError(img);
+    }
+
+    function handleImgSuccess(img) {
+      document.getElementById('imgLoading').classList.add('hidden');
+    }
+
+    function handleImgError(img) {
+      document.getElementById('imgLoading').classList.add('hidden');
+      img.classList.add('hidden');
+      document.getElementById('imgPlaceholder').classList.remove('hidden');
+      document.getElementById('imgSourceTag').innerText = 'ไม่สามารถโหลดรูปได้';
+    }
+
+    function toggleCustomUrlInput() {
+      const box = document.getElementById('customUrlBox');
+      box.classList.toggle('hidden');
+      if (!box.classList.contains('hidden')) {
+        document.getElementById('customUrlInput').focus();
+      }
+    }
+
+    function saveCustomHerbUrl() {
+      const input = document.getElementById('customUrlInput');
+      const url = input.value.trim();
+      if (!url) return;
+
+      const key = 'custom_herb_' + currentModalHerbName;
+      localStorage.setItem(key, url);
+      
+      const herb = HERBS_DB[currentModalHerbName] || {};
+      loadImageForHerb(currentModalHerbName, herb);
+      document.getElementById('customUrlBox').classList.add('hidden');
+    }
+
+    function clearCustomHerbUrl() {
+      const key = 'custom_herb_' + currentModalHerbName;
+      localStorage.removeItem(key);
+      document.getElementById('customUrlInput').value = '';
+
+      const herb = HERBS_DB[currentModalHerbName] || {};
+      loadImageForHerb(currentModalHerbName, herb);
+      document.getElementById('customUrlBox').classList.add('hidden');
+    }
+
+    function closeHerbModal() {
+      document.getElementById('herbModal').classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    // Search and Filter Handling
+    function handleSearch() {
+      currentSearchTerm = document.getElementById('searchInput').value.trim();
+      renderMedicines();
+    }
+
+    function resetSearch() {
+      document.getElementById('searchInput').value = '';
+      currentSearchTerm = '';
+      filterCategory('all');
+    }
+
+    function filterCategory(cat) {
+      currentCategory = cat;
+      const pills = document.querySelectorAll('.cat-pill');
+      pills.forEach(p => {
+        p.classList.remove('active', 'bg-emerald-400', 'text-herb-900', 'font-bold');
+        p.classList.add('bg-emerald-950/40', 'text-emerald-200');
+      });
+      event.target.classList.add('active', 'bg-emerald-400', 'text-herb-900', 'font-bold');
+      event.target.classList.remove('bg-emerald-950/40', 'text-emerald-200');
+      renderMedicines();
+    }
+
+    // Switch View between Grid and Flashcard
+    function switchView(mode) {
+      const gridBtn = document.getElementById('viewGridBtn');
+      const fcBtn = document.getElementById('viewFlashcardBtn');
+      const container = document.getElementById('medicinesContainer');
+      const fcSection = document.getElementById('flashcardSection');
+      const emptyState = document.getElementById('emptyState');
+
+      if (mode === 'grid') {
+        gridBtn.className = "px-3.5 py-1.5 rounded-lg text-sm font-medium bg-white/20 text-white flex items-center gap-1.5 transition";
+        fcBtn.className = "px-3.5 py-1.5 rounded-lg text-sm font-medium bg-white/10 hover:bg-white/20 text-emerald-100 flex items-center gap-1.5 transition";
+        container.classList.remove('hidden');
+        fcSection.classList.add('hidden');
+        renderMedicines();
+      } else {
+        fcBtn.className = "px-3.5 py-1.5 rounded-lg text-sm font-medium bg-white/20 text-white flex items-center gap-1.5 transition";
+        gridBtn.className = "px-3.5 py-1.5 rounded-lg text-sm font-medium bg-white/10 hover:bg-white/20 text-emerald-100 flex items-center gap-1.5 transition";
+        container.classList.add('hidden');
+        emptyState.classList.add('hidden');
+        fcSection.classList.remove('hidden');
+        flashcardIndex = 0;
+        isAnswerShown = false;
+        renderFlashcard();
+      }
+    }
+
+    // Flashcard Learning Mode Logic
+    function renderFlashcard() {
+      const med = MEDICINES_DATA[flashcardIndex];
+      document.getElementById('fcProgress').innerText = `บัตรคำที่ ${flashcardIndex + 1} / ${MEDICINES_DATA.length}`;
+      document.getElementById('fcCategory').innerText = med.catName;
+      document.getElementById('fcTitle').innerText = med.name;
+      document.getElementById('fcTaste').innerText = `รสประธาน: ${med.dominantTaste} (รสรวม: ${med.overallTaste})`;
+      document.getElementById('fcIndications').innerText = med.indications;
+      document.getElementById('fcVehicle').innerText = med.vehicle;
+
+      const mainDrugsContainer = document.getElementById('fcMainDrugs');
+      mainDrugsContainer.innerHTML = med.directDrugs.map(d => `
+        <button onclick="openHerbModal('${d}', 'ตัวยาตรง')" class="px-2 py-0.5 bg-rose-100 text-rose-800 rounded font-medium text-xs hover:bg-rose-200">
+          🌿 ${d}
+        </button>
+      `).join('');
+
+      const fcIng = document.getElementById('fcIngredients');
+      fcIng.innerHTML = med.ingredientsWithProportions ? med.ingredientsWithPopulations || med.ingredientsWithProportions.map(i => `<li>${i}</li>`).join('') : '<li>ตามพิกัดยาโบราณ</li>';
+
+      const answerBox = document.getElementById('fcAnswerBox');
+      const toggleBtn = document.getElementById('fcToggleAnswerBtn');
+      if (isAnswerShown) {
+        answerBox.classList.remove('hidden');
+        toggleBtn.innerText = "ซ่อนเฉลย";
+      } else {
+        answerBox.classList.add('hidden');
+        toggleBtn.innerText = "เฉลยโครงสร้างตำรับ";
+      }
+      lucide.createIcons();
+    }
+
+    function toggleFlashcardAnswer() {
+      isAnswerShown = !isAnswerShown;
+      renderFlashcard();
+    }
+
+    function nextFlashcard() {
+      flashcardIndex = (flashcardIndex + 1) % MEDICINES_DATA.length;
+      isAnswerShown = false;
+      renderFlashcard();
+    }
+
+    function prevFlashcard() {
+      flashcardIndex = (flashcardIndex - 1 + MEDICINES_DATA.length) % MEDICINES_DATA.length;
+      isAnswerShown = false;
+      renderFlashcard();
+    }
+
+    function updateStats() {
+      document.getElementById('resultCount').innerText = `กำลังแสดง 24 ตำรับยา`;
+    }
+
+    // Close modal on escape
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeHerbModal();
+    });
+  </script>
+</body>
+</html>
