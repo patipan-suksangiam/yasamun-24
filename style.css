@@ -37,3 +37,14 @@ img.zoom{cursor:zoom-in}
 #lb img{max-width:96vw;max-height:86vh;border-radius:10px;background:#fff}
 #lb .cap{color:#fff;font-size:.9rem;margin-top:10px;opacity:.9}
 #lb .hint{color:#cbd5e1;font-size:.78rem;margin-top:4px}
+.filters{position:sticky;top:0;z-index:6;background:var(--bg);display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 0;margin:0 0 6px;border-bottom:1px solid var(--bd)}
+.fbtn{border:1px solid var(--bd);background:#fff;color:var(--mut);border-radius:999px;padding:6px 13px;font:inherit;font-size:.85rem;cursor:pointer}
+.fbtn.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+#hq{flex:1;min-width:190px;padding:7px 12px;border:1px solid var(--bd);border-radius:9px;font:inherit;font-size:.9rem;background:#fff;color:var(--fg)}
+.badge{font-size:.72rem;font-weight:400;white-space:nowrap}
+.badge.own{color:#166534}
+.badge.web{color:#6b7280}
+.badge.nul{color:#9ca3af}
+.card.ownc{outline:2px solid rgba(124,63,46,.22)}
+section.hsec h2 .hcount{font-weight:600;color:var(--fg)}
+section.hsec .grid{margin-top:10px}
